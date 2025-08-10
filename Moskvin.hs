@@ -120,3 +120,12 @@ max3 = zipWith3 (\x y z -> x `max` y `max` z)
 -- Реализуйте c использованием функции zipWith функцию fibStream, возвращающую бесконечный список чисел Фибоначчи.
 fibStream :: [Integer]
 fibStream = [0,1] ++ zipWith (+) fibStream (tail fibStream)
+
+-- Предположим, что функция repeat, была бы определена следующим образом:
+-- ```haskell
+-- repeat = iterate repeatHelper
+-- ```
+-- определите, как должна выглядеть функция repeatHelper.
+repeat x = iterate repeatHelper where
+  repeatHelper = id
+  
