@@ -126,6 +126,22 @@ fibStream = [0,1] ++ zipWith (+) fibStream (tail fibStream)
 -- repeat = iterate repeatHelper
 -- ```
 -- определите, как должна выглядеть функция repeatHelper.
-repeat x = iterate repeatHelper where
+repeat_ x = iterate repeatHelper where
   repeatHelper = id
-  
+
+data Odd = Odd Integer 
+  deriving (Eq, Show)
+
+instance Enum Odd where
+  succ (Odd n) = Odd (n + 2)
+  pred (Odd n) = Odd (n - 2)
+
+  enumFrom (Odd n) = map Odd [n,n+2..]
+  enumFromTo (Odd n) (Odd m) = map Odd [n,n+2..m]
+  enumFromThen (Odd n) (Odd m) = map Odd [n,n+(m-n)..]
+  enumFromThenTo (Odd n) (Odd k) (Odd m) = map Odd [n,n+(k-n)..m]
+
+  toEnum n
+    | n `mod` 2 == 0 = error "arg is even"
+    | otherwise = Odd (fromIntegral n)
+  fromEnum (Odd n) = fromIntegral n
