@@ -2,6 +2,7 @@ module Moskvin where
 
 import Data.Char
 import Data.Function
+import Data.List
 
 fibonacci :: Integer -> Integer
 fibonacci n = helper 0 1 n
@@ -145,3 +146,19 @@ instance Enum Odd where
     | n `mod` 2 == 0 = error "arg is even"
     | otherwise = Odd (fromIntegral n)
   fromEnum (Odd n) = fromIntegral n
+
+-- Пусть есть список положительных достоинств монет coins, отсортированный по возрастанию.
+-- Воспользовавшись механизмом генераторов списков, напишите функцию change, которая разбивает переданную ей положительную сумму денег на монеты достоинств из списка coins всеми возможными способами. \
+-- Например, если coins = [2, 3, 7]:
+change :: (Ord a, Num a) => a -> [[a]]
+change requestedMoney = change' [[coin] | coin <- coins]
+  where
+    coins = [2, 3, 7]
+
+    change' combinations =
+      if null lessThan
+        then equalTo
+        else equalTo ++ change' ([coin:l | coin <- coins, l <- lessThan])
+      where
+        equalTo = filter ((== requestedMoney) . sum) combinations
+        lessThan = filter ((< requestedMoney) . sum) combinations
