@@ -116,3 +116,7 @@ delAllUpper = unwords . filter (not . all isUpper) . words
 -- содержащий на k-ой позиции наибольшее значение из величин на этой позиции в списках-аргументах.
 max3 :: Ord a => [a] -> [a] -> [a] -> [a]
 max3 = zipWith3 (\x y z -> x `max` y `max` z)
+
+-- Реализуйте c использованием функции zipWith функцию fibStream, возвращающую бесконечный список чисел Фибоначчи.
+fibStream :: [Integer]
+fibStream = [0,1] ++ zipWith (+) fibStream (tail fibStream)
