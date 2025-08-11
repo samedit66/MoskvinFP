@@ -162,3 +162,12 @@ change requestedMoney = change' [[coin] | coin <- coins]
       where
         equalTo = filter ((== requestedMoney) . sum) combinations
         lessThan = filter ((< requestedMoney) . sum) combinations
+
+
+-- evenOnly [1..10] == [2,4,6,8,10]
+-- evenOnly [1..9] == [2,4,6,8]
+-- take 5 $ [1..] == [2,4,6,8,10]
+evenOnly :: [a] -> [a]
+evenOnly = map fst . filter snd . masked
+  where
+    masked = foldr (\x xs -> (x, False) : map (\(x, mask) -> (x, not mask)) xs) []
